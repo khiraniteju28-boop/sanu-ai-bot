@@ -1,0 +1,16 @@
+{
+	"telemetryDisabled": false,
+	"cliId": "f689aff7-97e6-4e81-88ba-3ed8e0838f6f",
+	"userId": "69cd1a7d832c58888eb41061",
+	"users": {
+		"69cd1a7d832c58888eb41061": {
+			"id": "69cd1a7d832c58888eb41061",
+			"name": "teju khirani",
+			"email": "khiraniteju28@gmail.com",
+			"auth": {
+				"token": "nfc_FESxePVjPAJZpdXCByKFVv2jpNhAyEWv1135",
+				"github": {}
+			}
+		}
+	}
+}

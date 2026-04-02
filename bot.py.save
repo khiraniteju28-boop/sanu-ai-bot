@@ -1,0 +1,43 @@
+nano bot.py
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
+
+# 1. Start Command
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [[InlineKeyboardButton("👉 I Want To Try", callback_data='try')]]
+    await update.message.reply_text(
+        "🎉 Congratulations! Your bot has started",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+# 2. Button Logic
+async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    if query.data == 'try':
+        await query.edit_message_text("📸 Please send your photo")
+    elif query.data == 'premium':
+        keyboard = [
+            [InlineKeyboardButton("5 Photos - ₹15", callback_data='5')],
+            [InlineKeyboardButton("10 Photos - ₹80", callback_data='10')],
+            [InlineKeyboardButton("Payment Help", callback_data='help')]
+        ]
+        await query.edit_message_text("💰 Choose your plan:", reply_markup=InlineKeyboardMarkup(keyboard))
+    elif query.data in ['5', '10', 'day']:
+        await query.edit_message_text("⏳ Wait... Generating QR Code")
+
+# 3. Photo Handling
+async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [[InlineKeyboardButton("💎 Buy Premium", callback_data='premium')]]
+    await update.message.reply_text("❌ You are not a premium user", reply_markup=InlineKeyboardMarkup(keyboard))
+
+if __name__ == '__main__':
+    # APNA ASLI TOKEN YAHAN " " KE ANDAR DALO
+    TOKEN = "YAHAN_APNA_TOKEN_DALO"
+    app = ApplicationBuilder().token(TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CallbackQueryHandler(button))
+    app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
+    print("Bot chalu ho gaya hai...")
+    app.run_polling()
+

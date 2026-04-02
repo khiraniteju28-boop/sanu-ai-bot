@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mishu Store - Checkout</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #fce4ec; margin: 0; padding: 10px; }
+        .container { background: white; max-width: 450px; margin: auto; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 1px solid #ff69b4; overflow: hidden; }
+        .header { background: #ff69b4; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 18px; }
+        .price-section { background: #fff0f5; padding: 12px; text-align: center; font-size: 18px; color: #ff1493; border-bottom: 1px solid #ffb6c1; font-weight: bold; }
+        .form-body { padding: 20px; }
+        .input-group { margin-bottom: 12px; }
+        label { display: block; font-size: 12px; color: #666; margin-bottom: 4px; font-weight: 600; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        .row { display: flex; gap: 10px; }
+        .col { flex: 1; }
+        .pay-btn { background: #ff69b4; color: white; border: none; width: 100%; padding: 16px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .qr-area { display: none; text-align: center; padding: 20px; border-top: 2px dashed #ff69b4; margin-top: 15px; }
+        .qr-area img { width: 220px; border-radius: 10px; margin-bottom: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .success-msg { display: none; text-align: center; padding: 40px 20px; color: #2e7d32; }
+        .footer { text-align: center; font-size: 11px; color: #999; padding: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">Mishu Store - Checkout 🚗</div>
+    <div id="price-bar" class="price-section">Total Amount: ₹149</div>
+
+    <div class="form-body" id="main-form">
+        <div class="input-group"><label>Full Name*</label><input type="text" id="cust_name" placeholder="Apna naam likhein" required></div>
+        <div class="input-group"><label>Phone Number*</label><input type="number" id="cust_phone" placeholder="10 digits mobile number" required></div>
+        <div class="input-group"><label>House No. / Building*</label><input type="text" id="cust_house" placeholder="Ghar ka number / Building" required></div>
+        <div class="input-group"><label>Road / Area / Colony*</label><input type="text" id="cust_road" placeholder="Area ya colony ka naam" required></div>
+        <div class="row">
+            <div class="col"><label>Pincode*</label><input type="number" id="cust_pin" placeholder="6 digits" required></div>
+            <div class="col"><label>City*</label><input type="text" id="cust_city" placeholder="Shehar" required></div>
+        </div>
+        
+        <div class="input-group" style="margin-top:15px;">
+            <label>Payment Method</label>
+            <select id="payment-mode" onchange="updatePrice()">
+                <option value="149">Online Full Payment (₹149)</option>
+                <option value="55">COD (Pay ₹55 Advance)</option>
+            </select>
+        </div>
+
+        <button type="button" class="pay-btn" onclick="startPayment()">PROCEED TO PAY ➔</button>
+
+        <div class="qr-area" id="qr-area">
+            <p style="color:#ff1493; font-weight:bold; font-size:14px;">Opening UPI Apps...</p>
+            <p style="font-size:11px; color:#666;">If app doesn't open, scan this QR:</p>
+            <img src="myqr.png" alt="Scan QR">
+            <p style="font-size:11px; margin-bottom:10px;">ID: paytm.s19x4tu@pty</p>
+            <button type="button" class="pay-btn" style="background:#4caf50;" onclick="showSuccess()">I HAVE PAID ✅</button>
+        </div>
+    </div>
+
+    <div class="success-msg" id="success-msg">
+        <h2 style="margin:0;">🎉 Order Confirmed!</h2>
+        <p style="font-size:18px; font-weight:bold; margin:15px 0;">Aapka order receive ho gaya hai!</p>
+        <p style="font-size:14px; color:#666;">Mishu Store par bharosa karne ke liye dhanyawad. ✨</p>
+        <button class="pay-btn" onclick="location.reload()" style="background:#ff69b4;">BACK TO HOME</button>
+    </div>
+
+    <div class="footer">Secure Checkout • Trusted Store</div>
+</div>
+
+<script>
+    function updatePrice() {
+        const amt = document.getElementById('payment-mode').value;
+        document.getElementById('price-bar').innerText = "Total Amount: ₹" + amt;
+    }
+
+    function startPayment() {
+        const name = document.getElementById('cust_name').value.trim();
+        const amt = document.getElementById('payment-mode').value;
+        const phone = document.getElementById('cust_phone').value.trim();
+        const pin = document.getElementById('cust_pin').value.trim();
+
+        if(!name || !phone || !pin) { 
+            alert("Kripya saari details (Naam, Number, Address) bhariye!"); 
+            return; 
+        }
+
+        // AUTO OPEN LINK
+        const upiID = "paytm.s19x4tu@pty"; 
+        const upiLink = "upi://pay?pa=" + upiID + "&pn=MishuStore&am=" + amt + "&cu=INR&tn=OrderBy" + encodeURIComponent(name);
+        
+        // Open App
+        window.location.href = upiLink;
+
+        // Show QR as Backup
+        document.getElementById('qr-area').style.display = 'block';
+    }
+
+    function showSuccess() {
+        document.getElementById('main-form').style.display = 'none';
+        document.getElementById('price-bar').style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

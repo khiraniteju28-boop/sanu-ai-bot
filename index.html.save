@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; background: #f9f9f9; margin: 0; text-align: center; }
+        .nav { background: #f43397; color: white; padding: 15px; font-size: 22px; font-weight: bold; position: sticky; top: 0; }
+        .grid { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; justify-content: center; }
+        .card { background: white; border: 1px solid #ddd; width: 160px; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
+        .price { color: #f43397; font-size: 18px; font-weight: bold; margin: 5px 0; }
+        .buy-btn { background: #f43397; color: white; border: none; width: 100%; padding: 10px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        #modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index: 100; }
+        .m-content { background:white; margin:15% auto; padding:20px; width:280px; border-radius:10px; color: black; }
+        .wa-btn { background: #25D366; color: white; padding: 12px; text-decoration: none; display: block; border-radius: 5px; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="nav">Meesho Clone</div>
+    <div class="grid">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200">
+            <p style="font-size:14px; color:#666;">Silk Saree</p>
+            <p class="price">₹499</p>
+            <button class="buy-btn" onclick="openPay('Saree', 499)">Buy Now</button>
+        </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200">
+            <p style="font-size:14px; color:#666;">Watch</p>
+            <p class="price">₹199</p>
+            <button class="buy-btn" onclick="openPay('Watch', 199)">Buy Now</button>
+        </div>
+    </div>
+
+    <div id="modal">
+        <div class="m-content">
+            <h3>Scan QR & Pay</h3>
+            <img src="qr-code.png" style="width:200px; border:1px solid #eee;">
+            <p>Payment ke baad Screenshot bheinjein!</p>
+            <a id="wa-link" href="#" class="wa-btn">WhatsApp Pe Bheinjein</a>
+            <br>
+            <button onclick="document.getElementById('modal').style.display='none'">Back</button>
+        </div>
+    </div>
+
+    <script>
+        function openPay(name, price) {
+            document.getElementById('modal').style.display = 'block';
+            let myNumber = "91XXXXXXXXXX"; // <--- Yahan apna number daalein
+            let msg = encodeURIComponent("Hi! Maine " + name + " ke liye ₹" + price + " pay kar diye hain.");
+            document.getElementById('wa-link').href = "https://wa.me/" + myNumber + "?text=" + msg;
+        }
+    </script>
+</body>
+</html>cat <<EOF > index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; background: #f9f9f9; margin: 0; text-align: center; }
+        .nav { background: #f43397; color: white; padding: 15px; font-size: 22px; font-weight: bold; }
+        .grid { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; justify-content: center; }
+        .card { background: white; border: 1px solid #ddd; width: 160px; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
+        .buy-btn { background: #f43397; color: white; border: none; width: 100%; padding: 10px; cursor: pointer; border-radius: 5px; font-weight: bold; margin-top:10px; }
+        #modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index: 100; }
+        .m-content { background:white; margin:15% auto; padding:20px; width:280px; border-radius:10px; color: black; }
+    </style>
+</head>
+<body>
+    <div class="nav">Meesho Clone</div>
+    <div class="grid">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200">
+            <p>Silk Saree</p>
+            <p style="color:#f43397; font-weight:bold;">₹499</p>
+            <button class="buy-btn" onclick="document.getElementById('modal').style.display='block'">Buy Now</button>
+        </div>
+    </div>
+    <div id="modal">
+        <div class="m-content">
+            <h3>Scan QR & Pay</h3>
+            <img src="qr-code.png" style="width:200px; border:1px solid #eee;">
+            <p>Screenshot WhatsApp Karein!</p>
+            <a href="https://wa.me/91XXXXXXXXXX" style="background:#25D366; color:white; padding:12px; text-decoration:none; display:block; border-radius:5px; font-weight:bold;">WhatsApp Bheinjein</a>
+            <br>
+            <button onclick="document.getElementById('modal').style.display='none'">Back</button>
+        </div>
+    </div>
+</body>
+</html>
+EOF
+
+
+
